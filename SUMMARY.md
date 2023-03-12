@@ -27,7 +27,5 @@
   * [vue路由与生命周期](vue/vue路由与生命周期.md)
   * [属性-方法-过滤器](vue/属性-方法-过滤器.md)
   * [模版](vue/模版.md)
-- 算法
-  * [Leetcode](算法/Leetcode.md)
 - 项目部署
   * [Nginx](项目部署/Nginx.md)
