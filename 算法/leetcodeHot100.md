@@ -94,9 +94,14 @@
 - [543.二叉树的直径](#543二叉树的直径)
 - [560.和为-k-的子数组](#560和为-k-的子数组)
 - [581.最短无序连续子数组](#581最短无序连续子数组)
+- [617.合并二叉树](#617合并二叉树)
+- [621.任务调度器](#621任务调度器)
+- [647.回文子串](#647回文子串)
 - [713.乘积小于-k-的子数组](#713乘积小于-k-的子数组)
 - [739.每日温度](#739每日温度)
+- [763.划分字母区间](#763划分字母区间)
 - [921.使括号有效的最少添加](#921使括号有效的最少添加)
+- [925.长按键入](#925长按键入)
 - [946.验证栈序列](#946验证栈序列)
 - [1190.反转每对括号间的子串](#1190反转每对括号间的子串)
 - [1249.移除无效的括号](#1249移除无效的括号)
@@ -3973,8 +3978,146 @@ function subarraySum(nums: number[], k: number): number {
 
 // @lc code=start
 function findUnsortedSubarray(nums: number[]): number {
+  const n = nums.length
+  let l = 0
+  let r = n - 1
+  // 从左往右找到第一个不是按升序的元素
+  while (l < n - 1 && nums[l] <= nums[l + 1]) {
+    l++
+  }
+  // 数组已经有序，直接返回 0
+  if (l === n - 1) {
+    return 0;
+  }
+  // 从右往左找到第一个不是降序的元素
+  while (r > 0 && nums[r - 1] <= nums[r]) {
+    r--
+  }
+  // 找l~r之间的最小值和最大值
+  let minNum = Infinity 
+  let maxNum = -Infinity
+  for (let i = l; i <= r; i++) {
+    minNum = Math.min(minNum,nums[i])
+    maxNum = Math.max(maxNum, nums[i])
+  }
+
+  // 向左扩展 l，直到找到第一个大于 minNum 的位置
+  while (l >= 0 && nums[l] > minNum) {
+    l--
+  }
+  
+  // 向右扩展 r，直到找到第一个小于 maxNum 的位置
+  while (r < n  && nums[r] < maxNum) {
+    r++
+  }
+
+  return r - l - 1
+};
+// @lc code=end
+```
+
+## 617.合并二叉树
+
+```typescript
+/*
+ * @lc app=leetcode.cn id=617 lang=typescript
+ *
+ * [617] 合并二叉树
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */
+
+function mergeTrees(root1: TreeNode | null, root2: TreeNode | null): TreeNode | null {
+  // 如果没有节点，直接返回另一个节点
+  if (!root1) return root2
+  if (!root2) return root1
+  // 新建节点并，值为两个根节点的值之和
+  const mergeTree = new TreeNode(root1.val + root2.val)
+  // 递归左节点
+  mergeTree.left = mergeTrees(root1.left, root2.left)
+  // 递归右节点
+  mergeTree.right = mergeTrees(root1.right, root2.right)
+  
+  return mergeTree
+};
+// @lc code=end
+```
+
+## 621.任务调度器
+
+```typescript
+/*
+ * @lc app=leetcode.cn id=621 lang=typescript
+ *
+ * [621] 任务调度器
+ */
+
+// @lc code=start
+function leastInterval(tasks: string[], n: number): number {
+  const taskCounts = new Map<string, number>(); // 使用 Map 记录每个任务出现的次数
+  let maxCount = 0; // 出现次数最多的任务的个数
+  let maxTaskCount = 0; // 出现次数最多的任务的出现次数
+
+  for (const task of tasks) {
+    const count = (taskCounts.get(task) ?? 0) + 1; // 获取任务的出现次数
+    taskCounts.set(task, count); // 更新任务的出现次数
+    if (count > maxTaskCount) { // 如果当前任务的出现次数超过了出现次数最多的任务的出现次数
+      maxTaskCount = count;
+      maxCount = 1;
+    } else if (count === maxTaskCount) { // 如果当前任务的出现次数等于出现次数最多的任务的出现次数
+      maxCount++;
+    }
+  }
+  
+  return Math.max(tasks.length, (maxTaskCount - 1) * (n + 1) + maxCount);
 
 };
+// @lc code=end
+```
+
+## 647.回文子串
+
+```typescript
+/*
+ * @lc app=leetcode.cn id=647 lang=typescript
+ *
+ * [647] 回文子串
+ */
+
+// @lc code=start
+function countSubstrings(s: string): number {
+  let count = 0;
+  for (let i = 0; i < s.length; i++) {
+    expand(i, i) // 奇数长度的回文子串
+    expand(i, i + 1) // 偶数长度的回文子串
+  }
+  return count
+  // 定义扩展函数expand
+  function expand(l:number, r:number) {
+    while (l >= 0 && r < s.length && s[l] === s[r]) { // 当左右指针指向字符相等时，继续扩展
+
+      count++ // 增加回文子串计数器
+      l-- // 向左扩展
+      r++ // 向右扩展
+    }
+  }
+};
+
+
+
 // @lc code=end
 ```
 
@@ -4036,6 +4179,40 @@ function dailyTemperatures(temperatures: number[]): number[] {
 // @lc code=end
 ```
 
+## 763.划分字母区间
+
+```typescript
+/*
+ * @lc app=leetcode.cn id=763 lang=typescript
+ *
+ * [763] 划分字母区间
+ */
+
+// @lc code=start
+function partitionLabels(s: string): number[] {
+  let res: number[] = []
+  let maxIndex = 0
+  let start = 0
+  // 记录每个字符出现的最大索引
+  const map = new Map<string, number>()
+  for (let i = 0; i < s.length; i++) {
+    map.set(s[i],i)
+  }
+  for (let i = 0; i < s.length; i++) {
+    // 更新当前片段出现字符的最大索引
+    maxIndex = Math.max(maxIndex, map.get(s[i])!)
+    
+    // 如果当前索引等于最大索引，切割
+    if (maxIndex === i) {
+      res.push(i - start + 1)
+      start = i+1
+    }
+  }
+  return res
+};
+// @lc code=end
+```
+
 ## 921.使括号有效的最少添加
 
 ```typescript
@@ -4054,6 +4231,36 @@ function minAddToMakeValid(s: string): number {
     else stack.push(s[i])
   }
   return stack.length
+};
+// @lc code=end
+```
+
+## 925.长按键入
+
+```typescript
+/*
+ * @lc app=leetcode.cn id=925 lang=typescript
+ *
+ * [925] 长按键入
+ */
+
+// @lc code=start
+function isLongPressedName(name: string, typed: string): boolean {
+  let j = 0 // 初始化 name 的索引为 0
+  for (let i = 0; i < typed.length; i++) {
+    // 如果当前字符相同，将 name 的索引加 1
+    if (typed[i] === name[j]) {
+      j++
+      // 如果当前字符与 name 的前一个字符相同，继续扫描 typed
+    } else if (typed[i] === name[j - 1]) {
+      continue
+    } else {
+      // 如果当前字符与 name 中的字符不同且与 name 前一个字符也不同，返回 false
+      return false
+    }
+  }
+  // 如果扫描完 typed 后，name 的索引等于 name 的长度，返回 true，否则返回 false
+  return j === name.length
 };
 // @lc code=end
 ```
@@ -4121,20 +4328,26 @@ function reverseParentheses(s: string): string {
 
 // @lc code=start
 function minRemoveToMakeValid(s: string): string {
-  const arr = [...s]
-  const stack:number[] = []
+  const arr = [...s] // 将字符串转化为字符数组
+  const stack: number[] = [] // 定义栈，用于存储未匹配的左括号 '(' 的下标
+
+  // 第一遍扫描，找出未匹配的左括号，并将其下标存入栈中
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === '(') {
+    if (arr[i] === '(') { // 如果当前字符为左括号 '('，将其下标存入栈中
       stack.push(i)
-    } else if (arr[i] === ')') {
-      if (stack.length) stack.pop()
-      else arr[i]=''
+    } else if (arr[i] === ')') { // 如果当前字符为右括号 ')'
+      if (stack.length) { // 如果栈非空，说明当前右括号匹配到了一个左括号
+        stack.pop() // 弹出栈顶的左括号
+      } else { // 如果栈为空，说明当前右括号没有匹配的左括号，将其替换为空字符串
+        arr[i] = ''
+      }
     }
   }
-  for (const i of stack) { 
-    arr[i] = ""
+  // 第二遍扫描，将剩余未匹配的左括号替换为空字符串
+  for (const i of stack) {
+    arr[i] = ''
   }
-  return arr.join("")
+  return arr.join('') // 将字符数组转化为字符串并返回
 };
 // @lc code=end
 ```
