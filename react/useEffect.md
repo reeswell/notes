@@ -2,7 +2,7 @@
 
 useEffect: 用于在组件渲染后执行一些操作，可以模拟 componentDidMount、componentDidUpdate 和 componentWillUnmount 生命周期
 
-## 1、简单用法
+## 简单用法
 
 ```tsx
 const [number, setNumber] = useState(0);
@@ -20,7 +20,7 @@ console.count("组件渲染！");
 
 ```
 
-## 2、`useMemo` VS `useEffect`
+## `useMemo` VS `useEffect`
 
 ```tsx
   const [state, setState] = useState({
@@ -47,7 +47,7 @@ console.count("组件渲染！");
   }, [state.name, state.selected]);
 ```
 
-## 3、清理计时器
+## 清理计时器
 
 ```tsx
   const [number, setNumber] = useState(0);

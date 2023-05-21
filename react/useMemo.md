@@ -91,7 +91,7 @@ useMemo: 用于缓存计算结果，避免重复计算，类似于 shouldCompone
   console.log("component rendered!");
 ```
 
-## 计算量大的组件
+## 计算量大的组件与同级组件完全解耦
 
 ```tsx
 const Expensive = () => {
@@ -140,7 +140,7 @@ function App() {
 
 ```
 
-## 计算量大的组件2
+## 计算量大的组件通过组件参数传递传递
 
 ```tsx
   // 错误做法，和上一个demo同理
