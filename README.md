@@ -1,5 +1,32 @@
 # gitbook记录个人笔记以及常用代码片段
 
+- [Js Advanced](js-advanced/README.md)
+  - [Array](js-advanced/Array.md)
+  - [Bom](js-advanced/bom.md)
+  - [Class](js-advanced/class.md)
+  - [DOM](js-advanced/DOM.md)
+  - [Form](js-advanced/form.md)
+  - [Function](js-advanced/function.md)
+  - [Java Script API](js-advanced/JavaScript%20API.md)
+  - [Json](js-advanced/Json.md)
+  - [Object](js-advanced/object.md)
+  - [Promise](js-advanced/promise.md)
+  - [事件](js-advanced/事件.md)
+  - [动画与 Canvas 图形](js-advanced/动画与%20Canvas 图形.md)
+  - [客户端存储](js-advanced/客户端存储.md)
+  - [客户端检测](js-advanced/客户端检测.md)
+  - [数据类型](js-advanced/数据类型.md)
+  - [标签语句](js-advanced/标签语句.md)
+  - [网络请求与远程资源](js-advanced/网络请求与远程资源.md)
+  - [迭代器与生成器](js-advanced/迭代器与生成器.md)
+  - [错误处理与调试](js-advanced/错误处理与调试.md)
+  - [集合引用类型](js-advanced/集合引用类型.md)
+- React
+  - [Use Callback](react/useCallback.md)
+  - [Use Effect](react/useEffect.md)
+  - [Use Memo](react/useMemo.md)
+  - [Use Reducer](react/useReducer.md)
+  - [生命周期](react/生命周期.md)
 - Vue
   - vue设计与实现
     - ES6新增数据结构
@@ -28,6 +55,6 @@
   - [属性-方法-过滤器](vue/属性-方法-过滤器.md)
   - [模版](vue/模版.md)
 - 算法
-  - [Leetcod](算法/Leetcod.md)
+  - [Leetcode Hot 100](算法/leetcodeHot100.md)
 - 项目部署
   - [Nginx](项目部署/Nginx.md)
