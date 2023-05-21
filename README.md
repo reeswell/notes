@@ -12,7 +12,7 @@
   - [Object](js-advanced/object.md)
   - [Promise](js-advanced/promise.md)
   - [事件](js-advanced/事件.md)
-  - [动画与 Canvas 图形](js-advanced/动画与%20Canvas 图形.md)
+  - [动画与Canvas图形](js-advanced/动画与Canvas图形.md)
   - [客户端存储](js-advanced/客户端存储.md)
   - [客户端检测](js-advanced/客户端检测.md)
   - [数据类型](js-advanced/数据类型.md)
