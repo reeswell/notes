@@ -144,6 +144,7 @@ console.log(personCopy);
 解构赋值可以使用嵌套结构，以匹配嵌套的属性:
 
 ```js
+let person = {
   name: 'Matt',
   age: 27,
   job: {
@@ -164,8 +165,8 @@ let person = {
   }
 };
 let personCopy = {};
-// ({
-foo 在源对象上是 undefined
+({
+// foo 在源对象上是 undefined
 foo: {
   bar: personCopy.bar
  }
@@ -651,3 +652,26 @@ dog.sayAge(); // 输出 "I am 3 years old"
 ```
 
 在上面的例子中，我们定义了 Animal 构造函数作为父类，它有一个属性 name 和一个方法 sayName。然后我们定义了 Dog 构造函数作为子类，它通过借用 Animal 构造函数来继承它的属性 name，并添加了自己的属性 age 和方法 sayAge。最后，我们使用 Object.create() 方法创建了一个 Animal.prototype 的副本，并将其赋值给 Dog.prototype，实现了对父类方法的继承。
+
+### Object.fromEntries()
+
+ECMAScript 2019又给Object类添加了一个静态方法fromEntries()，用于通过键/值对数组的 集合构建对象。这个方法执行与 Object.entries()方法相反的操作。来看下面的例子:
+
+```js
+const obj = {
+  foo: 'bar',
+  baz: 'qux'
+};
+const objEntries = Object.entries(obj);
+console.log(objEntries);
+// [["foo", "bar"], ["baz", "qux"]]
+console.log(Object.fromEntries(objEntries)); // { foo: "bar", baz: "qux" }
+```
+
+此静态方法接收一个可迭代对象参数，该可迭代对象可以包含任意数量的大小为 2 的可迭代对象。 这个方法可以方便地将 Map 实例转换为 Object 实例，因为 Map 迭代器返回的结果与 fromEntries() 的参数恰好匹配:
+
+```js
+const map = new Map().set('foo', 'bar');
+console.log(Object.fromEntries(map));
+// { foo: "bar" }
+```

@@ -795,3 +795,153 @@ fetch('https://fetch.spec.whatwg.org/')
     }
   });
 ```
+
+## 异步迭代
+
+### 创建并使用异步迭代器
+
+要理解异步迭代器，最简单的办法是用它跟同步迭代器进行比较。下面代码中创建了一个简单的 Emitter 类，该类包含一个同步生成器函数，该函数会产生一个同步迭代器，同步迭代器输出 0~4:
+
+```js
+class Emitter {
+  constructor(max) {
+    this.max = max;
+    this.syncIdx = 0;
+  }
+  *[Symbol.iterator]() {
+    while (this.syncIdx <= this.max) {
+      yield this.syncIdx++;
+    }
+  }
+}
+const emitter = new Emitter(5);
+function syncCount() {
+  const syncCounter = emitter[Symbol.iterator]();
+  for (const x of syncCounter) {
+    console.log(x);
+  }
+}
+syncCount();
+// 0
+// 1
+// 2
+// 3 
+// 4
+```
+
+这个例子之所以可以运行起来，主要是因为迭代器可以立即产生下一个值。假如你不想在确定下一 个产生的值时阻塞主线程执行，也可以定义异步迭代器函数，让它产生期约包装的值。
+为此，要使用迭代器和生成器的异步版本。ECMAScript 2018 为此定义了 Symbol.asyncIterator， 以便定义和调用输出期约的生成器函数。同时，这一版规范还为异步迭代器增加了 for-await-of 循环， 用于使用异步迭代器。
+  相应地，前面的例子可以扩展为同时支持同步和异步迭代:
+
+```js
+class Emitter {
+  constructor(max) {
+    this.max = max; this.syncIdx = 0; this.asyncIdx = 0;
+  }
+  *[Symbol.iterator]() {
+    while (this.syncIdx < this.max) {
+      yield this.syncIdx++;
+    }
+  }
+  async *[Symbol.asyncIterator]() {
+    // *[Symbol.asyncIterator]() {
+    while (this.asyncIdx < this.max) {
+      // yield new Promise((resolve) => resolve(this.asyncIdx++));
+      yield this.asyncIdx++
+    }
+  }
+}
+const emitter = new Emitter(5);
+function syncCount() {
+  const syncCounter = emitter[Symbol.iterator]();
+  for (const x of syncCounter) {
+    console.log(x);
+  }
+}
+async function asyncCount() {
+  const asyncCounter = emitter[Symbol.asyncIterator]();
+  for await (const x of asyncCounter) {
+    console.log(x);
+  }
+}
+syncCount();
+// 0
+// 1
+// 2
+// 3 
+// 4
+asyncCount(); // 这里是串行异步迭代
+// 0
+// 1
+// 2
+// 3 
+// 4
+```
+
+为了加深理解，可以把前面例子中的同步生成器传给 for-await-of 循环:
+
+```js
+const emitter = new Emitter(5);
+async function asyncIteratorSyncCount() {
+  const syncCounter = emitter[Symbol.iterator]();
+  for await (const x of syncCounter) {
+    console.log(x);
+  }
+}
+asyncIteratorSyncCount(); // 这里是同步迭代
+// 0
+// 1
+// 2
+// 3 
+// 4
+```
+
+虽然这里迭代的是同步生成器产生的原始值，但 for-await-of 循环仍像它们被包装在期约中一 样处理它们。这说明 for-await-of 循环可以流畅地处理同步和异步可迭代对象。但是常规 for 循环 就不能处理异步迭代器了:
+
+```js
+function syncIteratorAsyncCount() {
+  const asyncCounter = emitter[Symbol.asyncIterator]();
+  for (const x of asyncCounter) {
+    console.log(x);
+  }
+}
+syncIteratorAsyncCount(); 
+// TypeError: asyncCounter is not iterable
+```
+
+关于异步迭代器，要理解的非常重要的一个概念是Symbol.asyncIterator符号不会改变生成器 函数的行为或者消费生成器的方式。注意在前面的例子中，生成器函数加上了 async 修饰符成为异步 函数，又加上了星号成为生成器函数。Symbol.asyncIterator 在这里只起一个提示的作用，告诉将 来消费这个迭代器的外部结构如 for-await-of 循环，这个迭代器会返回期约对象的序列。
+
+### 处理异步迭代器的reject()
+
+因为异步迭代器使用期约来包装返回值，所以必须考虑某个期约被拒绝的情况。由于异步迭代会按 顺序完成，而在循环中跳过被拒绝的期间是不合理的。因此，被拒绝的期约会强制退出迭代器:
+
+```js
+async *[Symbol.asyncIterator]() {
+  while (this.asyncIdx < this.max) {
+    if(this.asyncIdx < 3) {
+      yield this.asyncIdx;
+    } else {
+      throw 'Exited loop'
+    }
+  
+  }
+}
+asyncCount();
+// 0
+// 1
+// 2  
+// Uncaught (in promise) Exited loop
+
+```
+
+### 使用next()手动异步迭代
+
+for-await-of 循环提供了两个有用的特性:一是利用异步迭代器队列保证按顺序执行，二是隐藏 异步迭代器的期约。不过，使用这个循环会隐藏很多底层行为。
+因为异步迭代器仍遵守迭代器协议，所以可以使用 next()逐个遍历异步可迭代对象。如前所述， next()返回的值会包含一个期约，该期约可解决为{ value, done }这样的迭代结果。这意味着必须 使用期约 API 获取方法，同时也意味着可以不使用异步迭代器队列。
+
+```js
+const emitter = new Emitter(5);
+const asyncCounter = emitter[Symbol.asyncIterator]();
+console.log(asyncCounter.next());
+// Promise<{value, done}>
+```
