@@ -52,8 +52,8 @@ cls简单来说就是保证页面布局的稳定性，减少回流。从用户�
 <img src="myurl. jpeg" alt=" . .." width="400" height="200">
 ```
 
-```html
-<!-- Example: default videos to 16 / 9 aspect ratio  -->
+```css
+/* Example: default videos to 16 / 9 aspect ratio   */
 video {
 width: 100%;
 height: auto;
@@ -77,8 +77,8 @@ aspect-ratio: 16/9;
 
 尽可能使用用 CSS属性`transform`的过渡和动画，因为它移动发生在合成器中运行。CSS Transform 可以创建一个新的图层，意味着它不会影响其他内容避免CLS。这个新图层中的元素会在合成器中运行。当使用 CSS Transform 对元素进行变换时，浏览器会将这个元素的图层标记为需要重新合成，然后将这个图层发送给合成器进行处理。合成器会将这个图层中的元素进行变换，并将结果与其他图层组合成最终的页面呈现。
 
-```html
-<!-- Instead, use transform to move with translate  -->
+```css
+/* Instead, use transform to move with translate   */
 box {
   position: absolute;
   top: 10px;
@@ -88,8 +88,8 @@ box {
 
 @keyframes move {
 0% {
-  <!-- 而不是 top calc(90vh 160px); -->
-  transform: translateY (calc(90vh 160px)); 
+    /* error: top calc(90vh 160px);  */
+    transform: translateY (calc(90vh 160px)); 
   }
 }
 ```
