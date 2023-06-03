@@ -948,5 +948,5 @@ console.log(asyncCounter.next());
 
 ## 参考资料
 
-[JavaScript高级程序设计（第4版）](https://book.douban.com/subject/35175321/)
-[async-pool](https://github.com/rxaviers/async-pool)
+- [JavaScript高级程序设计（第4版）](https://book.douban.com/subject/35175321/)
+- [async-pool](https://github.com/rxaviers/async-pool)

@@ -64,5 +64,6 @@
 
 ## 参考资料
 
-[JavaScript高级程序设计（第4版）](https://book.douban.com/subject/35175321/)
-[Vue.js设计与实现](https://book.douban.com/subject/35768338/)
+- [JavaScript高级程序设计（第4版）](https://book.douban.com/subject/35175321/)
+
+- [Vue.js设计与实现](https://book.douban.com/subject/35768338/)
