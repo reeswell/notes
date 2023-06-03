@@ -945,3 +945,8 @@ const asyncCounter = emitter[Symbol.asyncIterator]();
 console.log(asyncCounter.next());
 // Promise<{value, done}>
 ```
+
+## 参考资料
+
+[JavaScript高级程序设计（第4版）](https://book.douban.com/subject/35175321/)
+[async-pool](https://github.com/rxaviers/async-pool)

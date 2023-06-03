@@ -61,3 +61,8 @@
   - [Leetcode Hot 100](算法/leetcodeHot100.md)
 - 项目部署
   - [Nginx](项目部署/Nginx.md)
+
+## 参考资料
+
+[JavaScript高级程序设计（第4版）](https://book.douban.com/subject/35175321/)
+[Vue.js设计与实现](https://book.douban.com/subject/35768338/)
