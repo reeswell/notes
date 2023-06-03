@@ -55,9 +55,9 @@ cls简单来说就是保证页面布局的稳定性，减少回流。从用户�
 ```css
 /* Example: default videos to 16 / 9 aspect ratio   */
 video {
-width: 100%;
-height: auto;
-aspect-ratio: 16/9;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
 }
 ```
 
