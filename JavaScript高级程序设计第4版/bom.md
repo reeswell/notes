@@ -19,7 +19,7 @@ offsetParent 不一定是 parentNode。比如，`<td>`元素的 offsetParent 是
 
 元素的客户端尺寸(client dimensions)包含元素内容及其内边距所占用的空间。客户端尺寸只有两 个相关属性:clientWidth 和 clientHeight。其中，clientWidth 是内容区宽度加左、右内边距宽 度，clientHeight 是内容区高度加上、下内边距高度。图 16-2 形象地展示了这两个属性。
 
-![image-20230515012020082](/Users/chenruirong/Library/Application Support/typora-user-images/image-20230515012020082.png)
+![image-20230610000424738](https://cdn.jsdelivr.net/gh/xxydrr/my_pic/img/image-20230610000424738.png)
 
 客户端尺寸实际上就是元素内部的空间，因此不包含滚动条占用的空间。这两个属性最常用于确定 浏览器视口尺寸，即检测document.documentElement的clientWidth和clientHeight。这两个 属性表示视口(`<html>`或`<body>`元素)的尺寸。
 
