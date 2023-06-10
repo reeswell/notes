@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>使用主题样式示例</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body class="theme-dark">
+  <div class="container">
+    <p class="text">这是一段文本。</p>
+    <button id="theme-switch">切换主题</button>
+  </div>
+</body>
+<script>
+  // 获取切换主题按钮元素
+  const themeSwitch = document.querySelector('#theme-switch');
+
+  // 监听按钮的点击事件
+  themeSwitch.addEventListener('click', () => {
+    // 切换 body 元素的主题类名
+    document.body.classList.toggle('theme-light');
+    document.body.classList.toggle('theme-dark');
+  });
+</script>
+
+</html>

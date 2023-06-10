@@ -1,0 +1,60 @@
+// 定义主题颜色值
+$themes: (
+  light: (
+    textColor: #333,
+    bg: #f9f9f9,
+
+  ),
+  dark: (
+    textColor: #ddd,
+    bg: #333,
+  ),
+);
+
+// 定义 mixin，用于在指定主题下应用样式
+@mixin useTheme($themes) {
+
+  @each $theme,
+  $map in $themes {
+    // 定义全局变量，存储当前主题的颜色值
+    $theme-map: () !global;
+
+    // 循环遍历当前主题的颜色值 map
+    @each $key,
+    $submap in $map {
+      // 获取当前主题下 $key 对应的颜色值
+      $value: map-get(map-get($themes, $theme), "#{$key}");
+      // 将当前主题的颜色值合并到 $theme-map 变量中
+      $theme-map: map-merge($theme-map,
+        ($key: $value,
+        )) !global;
+    }
+
+    // 在当前主题下应用样式
+    .theme-#{$theme} & {
+      @content; // 插槽的作用
+    }
+
+    // 清空 $theme-map 变量，为下一次循环做准备
+    $theme-map: null !global;
+  }
+}
+
+// 定义函数，用于获取指定键名的颜色值
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+// 定义 mixin，用于在移动设备下应用样式
+@mixin mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+// 定义 mixin，用于在平板设备下应用样式
+@mixin tablet {
+  @media (max-width: 960px) {
+    @content;
+  }
+}

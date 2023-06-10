@@ -1,0 +1,65 @@
+@import './theme.scss';
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container {
+  // 使用 useTheme mixin 定义不同主题下的样式
+  @include useTheme($themes) {
+    width: 100vw;
+    height: 100vh;
+    background-color: themed('bg');
+    color: themed('textColor');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 50px;
+    // 文本样式
+    .text {
+      background-color: themed('bg');
+      color: themed('textColor');
+      border: 1px solid themed('textColor');
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    #theme-switch {
+      padding: 10px;
+      border-radius: 5px;
+      background-color: themed('bg');
+      color: themed('textColor');
+      border: 1px solid themed('textColor');
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: darken(themed('bg'), 5%);
+      }
+    }
+
+    // 使用 mobile mixin 定义移动设备下的样式
+    @include mobile {
+      .button {
+        font-size: 14px;
+      }
+
+      .text {
+        font-size: 16px;
+      }
+    }
+
+    // 使用 tablet mixin 定义平板设备下的样式
+    @include tablet {
+      .button {
+        font-size: 16px;
+      }
+
+      .text {
+        font-size: 18px;
+      }
+    }
+  }
+
+}
