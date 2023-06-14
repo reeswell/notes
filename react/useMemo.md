@@ -106,12 +106,6 @@ const Expensive = () => {
   return <div>Expensive</div>;
 };
 
-const Form = () => {
-    console.log("Form component rendered!");
-
-  const [name, setName] = useState("");
-  return <input onChange={(e) => setName(e.target.value)} placeholder="name" />;
-};
 // 错误做法，这样name改变会导致Expensive组件也重新渲染
 // 结果： component rendered!  expensive component rendered!
 function App() {
@@ -128,6 +122,11 @@ function App() {
 // 正确做法，这个每次改变Form的name只会重新渲染Form组件
 // 打印：一开始 App rendered! -》 Form component rendered! -》 expensive component rendered!
 // 每次改变Form的name只会打印 Form component rendered! 不会打印App rendered! 和 expensive component rendered!
+const Form = () => {
+  console.log("Form component rendered!");
+  const [name, setName] = useState("");
+  return <input onChange={(e) => setName(e.target.value)} placeholder="name" />;
+};
 function App() {
     console.log("App rendered!");
     return (
@@ -154,7 +153,7 @@ function App() {
   );
 
 // 正确做法 ?:vue的插槽
-// 打印：一开始 app component rendered! -》BgProvider component rendered! -》 expensive compenent rendered!
+// 打印：一开始 app component rendered! -》BgProvider component rendered! -》 expensive component rendered!
 // 修改backgroundColor，只打印 BgProvider component rendered!
 
 const BgProvider = ({ children }) => {
@@ -179,10 +178,59 @@ function App() {
 }
 ```
 
-## useMemo vs React.memo
+## 缓存组件 useMemo vs React.memo
+
+```jsx
+import React, { useContext, useMemo, useState } from 'react';
+
+// 定义主题上下文
+const ThemeContext = React.createContext();
+
+function Consumer() {
+  console.log('Consumer render');
+  const { color, background } = useContext(ThemeContext);
+  return <div style={{ color, background }}>消费者</div>;
+}
+
+function Son() {
+  console.log('Son render');
+  return <Consumer />;
+}
+
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState({ color: '#ccc', background: '#pink' });
+
+  const handleThemeChange = () => {
+    setTheme({ color: '#fff', background: '#blue' });
+  };
+
+  const contextValue = useMemo(() => theme, [theme]);
+
+  return (
+    <ThemeContext.Provider value={contextValue}>
+      {children}
+      <button onClick={handleThemeChange}>切换主题</button>
+    </ThemeContext.Provider>
+  );
+}
+// const Son = React.memo(()=> <Consumer />)  缓存Son组件方案一，默认对子组件 props 进行浅比较处理。
+export default function App() {
+  const memoizedSon = useMemo(() => <Son />, []); // 缓存Son组件方案二，利用React 本身对 React element 对象的缓存。
+  return (
+    <ThemeProvider>
+      {memoizedSon}
+    </ThemeProvider>
+  );
+}
+// 一开始
+// Son render
+// Consumer render
+// 点击切换主题
+// 只是打印 Consumer render
+```
 
 `React.memo` 是一个高阶组件，用于对函数组件进行浅层比较，避免不必要的重新渲染。当组件的 `props` 没有发生变化时，`React.memo` 会使用之前缓存的组件实例，避免重新渲染组件。因此，`React.memo` 适用于优化组件的渲染性能，特别是当组件的渲染代价较高时。
 
 `useMemo` 则是一个 `Hook`，用于缓存计算结果，避免重复计算。`useMemo` 接受两个参数，第一个参数是一个函数，用于进行计算；第二个参数是一个依赖数组，只有依赖数组中的值发生变化时，才会重新计算并返回计算结果。因此，`useMemo` 适用于优化计算性能，特别是当计算代价较高时。
 
-需要注意的是，React.memo 和 `useMemo` 的作用虽然不同，但它们都是基于浅层比较的，因此只能比较 `props` 或依赖数组中的简单类型值。如果 `props` 或依赖数组中包含复杂类型值（如对象或数组），则需要自行实现比较逻辑，否则可能会导致不正确的渲染结果或缓存结果。
+React.memo 和 `useMemo` 的作用虽然不同，但它们都是基于浅层比较的，因此只能比较 `props` 或依赖数组中的简单类型值。如果 `props` 或依赖数组中包含复杂类型值（如对象或数组），则需要自行实现比较逻辑，否则可能会导致不正确的渲染结果或缓存结果。
