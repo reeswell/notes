@@ -97,7 +97,8 @@ const Child = ({ forwardedRef, ...props }) => {
   // 将 ref 绑定到 div 元素上
   return <div ref={forwardedRef} onClick={handleClick}>Click Me</div>;
 };
-
+// 使用高阶组件封装子组件
+const HocChild = HOC(Child);
 // 父组件
 const Parent = () => {
   // 创建一个引用变量
@@ -107,9 +108,6 @@ const Parent = () => {
   const handleClick = () => {
     console.log(childRef.current);
   };
-
-  // 使用高阶组件封装子组件
-  const HocChild = HOC(Child);
 
   return (
     <div>
