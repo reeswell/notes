@@ -1,4 +1,4 @@
-# Prompt
+# ChatGPT Prompts
 
 ## 指示要清楚且具体
 

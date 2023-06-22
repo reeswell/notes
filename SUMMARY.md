@@ -62,7 +62,7 @@
   - [属性-方法-过滤器](vue/属性-方法-过滤器.md)
   - [模版](vue/模版.md)
 - 小技巧
-  - [Chat Gpt Prompts](小技巧/chatGptPrompts.md)
+  - [Chat GPT Prompts](小技巧/chatGPTPrompts.md)
 - 浏览器
   - [核心Web指标](浏览器/核心Web指标.md)
 - 算法
