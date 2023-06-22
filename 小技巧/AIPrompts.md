@@ -1,4 +1,4 @@
-# ChatGPTPrompts
+# AIPrompts
 
 ## 指示要清楚且具体
 
