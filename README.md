@@ -32,6 +32,7 @@
   - [Use Effect](react/useEffect.md)
   - [Use Memo](react/useMemo.md)
   - [Use Reducer](react/useReducer.md)
+  - [渲染](react/渲染.md)
   - [生命周期](react/生命周期.md)
 - Vue
   - vue设计与实现
@@ -60,10 +61,14 @@
   - [vue路由与生命周期](vue/vue路由与生命周期.md)
   - [属性-方法-过滤器](vue/属性-方法-过滤器.md)
   - [模版](vue/模版.md)
+- 小技巧
+  - [Chat Gpt Prompts](小技巧/chatGptPrompts.md)
 - 浏览器
   - [核心Web指标](浏览器/核心Web指标.md)
 - 算法
   - [Leetcode Hot 100](算法/leetcodeHot100.md)
+- 面向对象和设计模式
+  - [SOLID和面向对象](面向对象和设计模式/SOLID和面向对象.md)
 - 项目部署
   - [Nginx](项目部署/Nginx.md)
 
