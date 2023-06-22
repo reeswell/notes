@@ -6,11 +6,11 @@
 
 第一组属性涉及偏移尺寸(offset dimensions)，包含元素在屏幕上占用的所有视觉空间。元素在页 面上的视觉空间由其高度和宽度决定，包括所有内边距、滚动条和边框(但不包含外边距)。以下 4 个 属性用于取得元素的偏移尺寸。
 
-- offsetHeight，元素在垂直方向上占用的像素尺寸，包括它的高度、水平滚动条高度(如果可 见)和上、下边框的高度。 17
+- offsetHeight，元素在垂直方向上占用的像素尺寸，包括它的高度、水平滚动条高度(如果可 见)和上、下边框的高度。
 - offsetLeft，元素左边框外侧距离包含元素左边框内侧的像素数。
 - offsetTop，元素上边框外侧距离包含元素上边框内侧的像素数。
 - offsetWidth，元素在水平方向上占用的像素尺寸，包括它的宽度、垂直滚动条宽度(如果可
-见)和左、右边框的宽度。 其中，offsetLeft和offsetTop是相对于包含元素的，包含元素保存在offsetParent属性中。 19
+见)和左、右边框的宽度。 其中，offsetLeft和offsetTop是相对于包含元素的，包含元素保存在offsetParent属性中。
 offsetParent 不一定是 parentNode。比如，`<td>`元素的 offsetParent 是作为其祖先的`<table>` 元素，因为`<table>`是节点层级中第一个提供尺寸的元素。图 16-1 展示了这些属性代表的不同尺寸。
 
 ![image-20230515012110926](https://cdn.jsdelivr.net/gh/xxydrr/my_pic/img/image-20230515012110926.png)

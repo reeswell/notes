@@ -446,7 +446,6 @@ if (!messagePort) {
 
 // main.js
 const channel = new MessageChannel();
-console.log("🚀 ~ file: main.js:33 ~ channel:", channel)
 const factorialWorker = new Worker('./worker.js');
 // 把`MessagePort`对象发送到工作者线程
 // 工作者线程负责处理初始化信道 
