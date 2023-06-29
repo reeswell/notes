@@ -1,5 +1,7 @@
 # Your Book Title
 
+- AI
+  - [Prompts](AI/prompts.md)
 - Css
   - [主题切换](css/主题切换.md)
 - JavaScript高级程序设计第4版
@@ -28,7 +30,6 @@
   - [集合引用类型](JavaScript高级程序设计第4版/集合引用类型.md)
 - React
   - [Ref](react/ref.md)
-  - [Use Callback](react/useCallback.md)
   - [Use Effect](react/useEffect.md)
   - [Use Memo](react/useMemo.md)
   - [Use Reducer](react/useReducer.md)
@@ -61,10 +62,9 @@
   - [vue路由与生命周期](vue/vue路由与生命周期.md)
   - [属性-方法-过滤器](vue/属性-方法-过滤器.md)
   - [模版](vue/模版.md)
-- 小技巧
-  - [AI Prompts](小技巧/AIPrompts.md)
 - 浏览器
   - [核心Web指标](浏览器/核心Web指标.md)
+  - [长任务中断和恢复](浏览器/长任务中断和恢复.md)
 - 算法
   - [Leetcode Hot 100](算法/leetcodeHot100.md)
 - 面向对象和设计模式
