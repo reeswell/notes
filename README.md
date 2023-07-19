@@ -67,7 +67,7 @@
   - [核心Web指标](浏览器/核心Web指标.md)
   - [长任务中断和恢复](浏览器/长任务中断和恢复.md)
 - 算法
-  - [Leetcode Hot 100](算法/leetcodeHot100.md)
+  - [Leetcode](算法/leetcode.md)
 - 面向对象和设计模式
   - [SOLID与React](面向对象和设计模式/SOLID与React.md)
 - 项目部署
