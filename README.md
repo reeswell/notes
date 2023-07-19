@@ -17,6 +17,7 @@
   - [Promise](JavaScript高级程序设计第4版/promise.md)
   - [Worker](JavaScript高级程序设计第4版/worker.md)
   - [事件](JavaScript高级程序设计第4版/事件.md)
+  - [代理与反射](JavaScript高级程序设计第4版/代理与反射.md)
   - [最佳实践](JavaScript高级程序设计第4版/最佳实践.md)
   - [动画与Canvas图形](JavaScript高级程序设计第4版/动画与Canvas图形.md)
   - [客户端存储](JavaScript高级程序设计第4版/客户端存储.md)
@@ -68,7 +69,7 @@
 - 算法
   - [Leetcode Hot 100](算法/leetcodeHot100.md)
 - 面向对象和设计模式
-  - [SOLID和面向对象](面向对象和设计模式/SOLID和面向对象.md)
+  - [SOLID与React](面向对象和设计模式/SOLID与React.md)
 - 项目部署
   - [Nginx](项目部署/Nginx.md)
 
