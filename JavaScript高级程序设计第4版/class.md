@@ -1,28 +1,5 @@
 # class
 
-```js
-const nameSymbol = Symbol('name');
-const ageSymbol = Symbol('age');
-
-class Person {
-  constructor(name, age) {
-    this[nameSymbol] = name;
-    this[ageSymbol] = age;
-  }
-
-  getAge() {
-    return this[ageSymbol];
-  }
-  getName() {
-    return this[nameSymbol];
-  }
-}
-var person = new Person("John", 30);
-console.log(person.getAge()); // 30
-console.log(person[nameSymbol]); // undefined
-console.log(person[ageSymbol]); // undefined
-```
-
 在 JavaScript 中，私有属性和私有方法是类的实例的非公开成员，它们只能在类的内部访问和修改。从 ECMAScript 2020(ES11) 开始，JavaScript 提供了一种新的语法来实现私有属性和私有方法，即使用井号（#）作为前缀。
 
 私有属性：
