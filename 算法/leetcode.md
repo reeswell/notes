@@ -20,6 +20,7 @@
   - [32.最长有效括号](#32最长有效括号)
   - [33.搜索旋转排序数组](#33搜索旋转排序数组)
   - [34.在排序数组中查找元素的第一个和最后一个位置](#34在排序数组中查找元素的第一个和最后一个位置)
+  - [39.组合总和](#39组合总和)
   - [42.接雨水](#42接雨水)
   - [46.全排列](#46全排列)
   - [48.旋转图像](#48旋转图像)
@@ -77,6 +78,7 @@
   - [283.移动零](#283移动零)
   - [287.寻找重复数](#287寻找重复数)
   - [300.最长递增子序列](#300最长递增子序列)
+  - [301.删除无效的括号](#301删除无效的括号)
   - [309.最佳买卖股票时机含冷冻期](#309最佳买卖股票时机含冷冻期)
   - [322.零钱兑换](#322零钱兑换)
   - [337.打家劫舍-iii](#337打家劫舍-iii)
@@ -669,34 +671,33 @@ function generateParenthesis(n: number): string[] {
 @returns 合并后的有序链表
 */
 function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
-  // 定义合并两个有序链表的函数
-  function mergeTwoLists(l1: ListNode | null, l2: ListNode | null): ListNode | null {
-    if (!l1) return l2;
-    if (!l2) return l1;
-    if (l1.val < l2.val) {
-      l1.next = mergeTwoLists(l1.next, l2);
-      return l1;
-    } else {
-      l2.next = mergeTwoLists(l1, l2.next);
-      return l2;
-    }
-  }
-  // 定义递归函数，用于合并 lists 数组中从 start 到 end 的所有有序链表
-  function helper(lists: Array<ListNode | null>, start: number, end: number): ListNode | null {
-    if (start === end) { // 如果只有一个链表，直接返回该链表
-      return lists[start];
-    } else if (start < end) {
-      const mid = Math.floor((end + start) / 2); // 将 lists 数组分成两半
-      const left = helper(lists, start, mid); // 递归合并左半部分的所有链表
-      const right = helper(lists, mid + 1, end); // 递归合并右半部分的所有链表
-      return mergeTwoLists(left, right); // 合并左右两部分的链表
-    } else {
-      return null;
-    }
-  }
-
   return helper(lists, 0, lists.length - 1); // 从第一个链表开始，合并所有的有序链表
 };
+// 定义递归函数，用于合并 lists 数组中从 start 到 end 的所有有序链表
+function helper(lists: Array<ListNode | null>, start: number, end: number): ListNode | null {
+  if (start === end) { // 如果只有一个链表，直接返回该链表
+    return lists[start];
+  } else if (start < end) {
+    const mid = Math.floor((end + start) / 2); // 将 lists 数组分成两半
+    const left = helper(lists, start, mid); // 递归合并左半部分的所有链表
+    const right = helper(lists, mid + 1, end); // 递归合并右半部分的所有链表
+    return mergeTwoLists(left, right); // 合并左右两部分的链表
+  } else {
+    return null;
+  }
+}
+// 定义合并两个有序链表的函数
+function mergeTwoLists(l1: ListNode | null, l2: ListNode | null): ListNode | null {
+  if (!l1) return l2;
+  if (!l2) return l1;
+  if (l1.val < l2.val) {
+    l1.next = mergeTwoLists(l1.next, l2);
+    return l1;
+  } else {
+    l2.next = mergeTwoLists(l1, l2.next);
+    return l2;
+  }
+}
 // @lc code=end
 ```
 
@@ -900,6 +901,40 @@ function binarySearch(nums: number[], key: number, findMax: boolean) {
 
   return keyIndex;
 }
+// @lc code=end
+```
+
+## 39.组合总和
+
+```typescript
+/*
+ * @lc app=leetcode.cn id=34 lang=typescript
+ *
+ * [3] 在排序数组中查找元素的第一个和最后一个位置
+ */
+
+// @lc code=start
+function combinationSum(candidates: number[], target: number): number[][] {
+    const res: number[][] = []
+    candidates.sort((a,b)=> a-b)
+    const backTrace=(target:number,state:number[],start:number)=> {
+        if(target===0) {
+            res.push(state)
+            return
+        }
+        for(let i = start;i<candidates.length;i++) {
+            const c = candidates[i]
+            // 这是因为数组已排序，后边元素更大，子集和一定超过 target
+            if (target - c < 0) {
+                break;
+            }
+            backTrace(target - c,[...state,c],i)
+        }
+ 
+    }
+    backTrace(target,[],0)
+    return res
+};
 // @lc code=end
 ```
 
@@ -2207,7 +2242,81 @@ class LRUCache {
         }
     }
 }
+class Node {
+  constructor(key, val) {
+      this.key = key;
+      this.val = val;
+      this.next = null;
+      this.prev = null;
+  }
+}
 
+class DoublyLinkedList {
+  constructor() {
+      this.head = null;
+      this.tail = null;
+      this.length = 0;
+  }
+  
+  push(key, val) {
+      const newNode = new Node(key, val);
+      if(!this.head) {
+          this.head = newNode;
+          this.tail = newNode;
+      } else {
+          this.tail.next = newNode;
+          newNode.prev = this.tail;
+          this.tail = newNode;
+      }
+      this.length++;
+      return newNode;
+  }
+  
+  remove(node) {
+      if(!node.next && !node.prev) { // if there's only 1 node
+          this.head = null;
+          this.tail = null;
+      } else if(!node.next) { // if the node is tail node
+          this.tail = node.prev;
+          this.tail.next = null;
+      } else if(!node.prev) { // if the node is head node
+          this.head = node.next;
+          this.head.prev = null;
+      } else { // if the node is in between
+          const prev = node.prev;
+          const next = node.next;
+          prev.next = next;
+          next.prev = prev;
+      }
+      this.length--;
+  }
+}
+
+class LRUCache {
+  constructor(capacity) {
+      this.DLL = new DoublyLinkedList();
+      this.map = {};
+      this.capacity = capacity;
+  }
+
+  get(key) {
+      if(!this.map[key]) return -1;
+      const value = this.map[key].val;
+      this.DLL.remove(this.map[key]);
+      this.map[key] = this.DLL.push(key, value);
+      return value;
+  }
+
+  put(key, value) {
+      if(this.map[key]) this.DLL.remove(this.map[key]);
+      this.map[key] = this.DLL.push(key, value);
+      if(this.DLL.length > this.capacity) {
+          const currKey = this.DLL.head.key;
+          delete this.map[currKey];
+          this.DLL.remove(this.DLL.head);
+      }
+  }
+}
 /**
  * Your LRUCache object will be instantiated and called as such:
  * var obj = new LRUCache(capacity)
@@ -2238,7 +2347,7 @@ class LRUCache {
  *     }
  * }
  */
-
+// 1、归并排序的思想，局部有序到整体有序，最后相当于将两条有序的链表h合并
 function sortList(head: ListNode | null): ListNode | null {
   if (!head || !head.next) return head
 
@@ -3413,7 +3522,79 @@ function lengthOfLIS2(nums: number[]): number {
   return tails.length;
 }
 
+
+
 // @lc code=end
+```
+
+## 301.删除无效的括号
+
+```typescript
+/*
+ * @lc app=leetcode.cn id=309 lang=typescript
+ *
+ * [309] 最佳买卖股票时机含冷冻期
+ */
+function removeInvalidParentheses(s: string): string[] {
+    let res: string[] = []
+    let left = 0
+    let right = 0
+    for(const c of s) {
+        if(c==='(') {
+            left++
+        } else if(c===')') {
+           if(left===0) {
+               right++
+           } else {
+               left--
+           }
+        }
+    }
+
+    const dfs = (l:number,r:number, str:string,start:number)=> {
+        if(l===0 && r===0 ) {
+            if(isValid(str)) {
+                res.push(str)
+            }
+            return
+        }
+        for(let i=start;i<str.length;i++) {
+            // 后一个等于前一个字符串，跳过避免重复子集
+            if(i>start && str[i]===str[i-1]) continue
+            // 不是括号
+            if (str[i] !== '(' && str[i] !== ')') continue;
+            // 缺少的括号大于剩余的括号
+            if(l+r > str.length-i) return
+            const nextStr = str.slice(0,i)+str.slice(i+1)
+            if(l>0 && str[i]==='(') {
+                dfs(l-1,r,nextStr,i)
+            }
+            if(r>0 && str[i]===')') {
+                dfs(l,r-1,nextStr,i)
+            }
+        }
+
+    }
+    dfs(left,right,s,0)
+    return res
+
+};
+
+function isValid(s:string) {
+    let count = 0
+    for(const c of s) {
+        if(c==='(') {
+            count++
+        } else if(c===')') {
+            count--
+            // 右括号在前，直接剪枝
+            if(count<0) {
+                return false
+            }
+        }
+    }
+    return count===0
+}
 ```
 
 ## 309.最佳买卖股票时机含冷冻期
@@ -3923,6 +4104,59 @@ function pathSum(root: TreeNode | null, targetSum: number): number {
 
 ## 438.找到字符串中所有字母异位词
 
+```ts
+function findAnagrams(s: string, p: string): number[] {
+  const map = new Map<string, number>();
+  const res: number[] = [];
+
+  // 预处理模式字符串，统计每个字符的频率。
+  for (const c of p) {
+    map.set(c, (map.get(c) ?? 0) + 1);
+  }
+
+  // 使用滑动窗口遍历搜索字符串。
+  let l = 0;
+  let r = 0;
+  let count = p.length;
+
+  while (r < s.length) {
+    // 如果当前字符在模式字符串中，并且其频率大于零，
+    // 则表示找到了一个有效的字母异位词窗口。
+    if (map.has(s[r]) && map.get(s[r])! > 0) {
+      count--;
+    }
+
+    // 将当前字符在映射中的频率减一。
+    map.set(s[r], (map.get(s[r]) ?? 0) - 1);
+
+    // 右指针向前移动。
+    r++;
+
+    // 如果找到了一个有效的字母异位词窗口，则将左指针添加到结果数组中。
+    if (count === 0) {
+      res.push(l);
+    }
+  
+    // 如果窗口大小大于等于模式字符串长度，left指针向后移动。
+    // 释放s[l]的占用
+    if (r - l >= p.length) {
+      // 则需要将左指针向前移动，需要的count加1。
+      if (map.has(s[l]) && map.get(s[l])! >= 0) {
+        count++;
+      }
+
+      // 为使用字符s[l] 加1
+      map.set(s[l], (map.get(s[l]) ?? 0) + 1);
+
+      l++;
+    }
+  }
+
+  return res;
+}
+
+```
+
 ```typescript
 /*
  * @lc app=leetcode.cn id=438 lang=typescript
@@ -4242,6 +4476,7 @@ function diameterOfBinaryTree(root: TreeNode | null): number {
  * [560] 和为 K 的子数组
  */
 /**
+ * 初始化{0，1}可以看作是在前缀和前多加了一个和，是为了防止从序号0开始加到i时刚好为k的情况出现时，没法找到对应数值计数
 *为什么如果前缀和减去 k 在 map 中出现过，则说明以当前位置为结尾的子数组和为 k
 *如果前缀和减去 k 在 map 中出现过，则说明在之前的前缀和中有一个值等于当前前缀和减去 k。假设当前位置为 i，前缀和为 sum，前缀和减去 k 的值为 sum - k，则满足 sum - k 在 map 中出现过的条件为：
 *sum - (sum - k) = k 在之前的前缀和中出现过。
@@ -4469,7 +4704,7 @@ function numSubarrayProductLessThanK(nums: number[], k: number): number {
 ```typescript
 /*
  * @lc app=leetcode.cn id=739 lang=typescript
- *
+ * 在一维数组中对每一个数找到第一个比自己小的元素。这类“在一维数组中找第一个满足某种条件的数”的场景就是典型的单调栈应用场景。
  * [739] 每日温度
  */
 
